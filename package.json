@@ -1,6 +1,6 @@
 {
   "name": "@cj09/css",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "CJ",
   "keywords": [
     "CSS",
@@ -27,7 +27,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "build": "tsc",
     "checkTypes": "tsc --noEmit",
-    "prepare": "yarn build",
+    "prepare": "yarn format && yarn build",
     "preversion": "concurrently \"yarn checkTypes\" \"yarn test\"",
     "version": "format && git add -A src",
     "postversion": "git push && git push --tags"

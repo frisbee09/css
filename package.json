@@ -18,8 +18,9 @@
   "scripts": {
     "test": "jest",
     "format": "prettier --write \"src/**/*.ts\"",
+    "build": "tsc",
     "checkTypes": "tsc --noEmit",
     "prepare": "yarn build",
-    "preversion": "yarn checkTypes"
+    "preversion": "concurrently \"yarn checkTypes\" \"yarn test\""
   }
 }

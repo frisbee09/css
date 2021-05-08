@@ -1,5 +1,6 @@
 {
-  "name": "css",
+  "name": "@cj/css",
+  "version": "1.0.0",
   "dependencies": {
     "typescript": "^4.2.4"
   },

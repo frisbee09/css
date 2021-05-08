@@ -1,9 +1,13 @@
 {
   "name": "@cj/css",
   "version": "1.0.0",
+  "author": "CJ",
+  "keywords": ["CSS", "Helpers"],
   "dependencies": {
     "typescript": "^4.2.4"
   },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.1",
@@ -21,7 +25,9 @@
     "build": "tsc",
     "checkTypes": "tsc --noEmit",
     "prepare": "yarn build",
-    "preversion": "concurrently \"yarn checkTypes\" \"yarn test\""
+    "preversion": "concurrently \"yarn checkTypes\" \"yarn test\"",
+    "version": "format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "files": [
     "lib/**/*"

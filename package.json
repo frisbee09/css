@@ -1,13 +1,12 @@
 {
   "name": "@cj09/css",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "CJ",
   "keywords": [
     "CSS",
     "Helpers"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "devDependencies": {

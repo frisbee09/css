@@ -15,5 +15,5 @@ test('Real aqua colour converts correctly', () => {
 	expect(aqua.r).toBe(132);
 	expect(aqua.g).toBe(220);
 	expect(aqua.b).toBe(198);
-	expect(aqua.getHexA()).toStrictEqual('#FF84DCC6')
-})
+	expect(aqua.getHexA()).toStrictEqual('#FF84DCC6');
+});

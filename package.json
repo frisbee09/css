@@ -22,5 +22,8 @@
     "checkTypes": "tsc --noEmit",
     "prepare": "yarn build",
     "preversion": "concurrently \"yarn checkTypes\" \"yarn test\""
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }

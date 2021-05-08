@@ -30,7 +30,7 @@
     "preversion": "yarn concurrently \"yarn checkTypes\" \"yarn test\"",
     "version": "yarn format && git add -A src",
     "postversion": "git push && git push --tags",
-    "publish": "prepare && yarn npm publish --access public"
+    "publish": "yarn prepare && yarn npm publish --access public"
   },
   "files": [
     "lib/**/*"

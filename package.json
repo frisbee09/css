@@ -1,14 +1,17 @@
 {
-  "name": "@cj/css",
-  "version": "1.0.0",
+  "name": "@cj09/css",
+  "version": "1.0.1",
   "author": "CJ",
-  "keywords": ["CSS", "Helpers"],
+  "keywords": [
+    "CSS",
+    "Helpers"
+  ],
   "dependencies": {
-    "typescript": "^4.2.4"
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "devDependencies": {
+    "typescript": "^4.2.4",
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-typescript": "^7.13.0",

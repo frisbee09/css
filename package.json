@@ -25,7 +25,7 @@
   "scripts": {
     "test": "jest",
     "format": "prettier --write \"src/**/*.ts\"",
-    "build": "tsc",
+    "build": "tsc --build --clean && tsc",
     "checkTypes": "tsc --noEmit",
     "prepare": "yarn format && yarn build",
     "preversion": "concurrently \"yarn checkTypes\" \"yarn test\"",

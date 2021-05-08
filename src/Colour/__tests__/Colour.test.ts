@@ -9,7 +9,11 @@ test('colour inits to black', () => {
 });
 
 test('Real aqua colour converts correctly', () => {
-	const aqua = new Colour({ mode: ColourType.hsl, values: [132, 220, 198] });
+	const rgb = [132, 220, 198] as [number, number, number];
+	const aqua = new Colour({ mode: ColourType.rgb, values: rgb });
 
+	expect(aqua.r).toBe(132);
+	expect(aqua.g).toBe(220);
+	expect(aqua.b).toBe(198);
 	expect(aqua.getHexA()).toStrictEqual('#FF84DCC6')
 })

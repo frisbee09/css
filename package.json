@@ -29,7 +29,8 @@
     "prepare": "yarn format && yarn build",
     "preversion": "yarn concurrently \"yarn checkTypes\" \"yarn test\"",
     "version": "yarn format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "publish": "yarn npm publish --access public"
   },
   "files": [
     "lib/**/*"

@@ -79,7 +79,7 @@ export class Colour {
 		const alphaAsHex = rgbValueToHex(rgba.slice(-1)[0] * 255);
 		const rgbAsHex = rgba.slice(0, -1).map(rgbValueToHex);
 
-		return `#${[alphaAsHex, ...rgbAsHex].join('').toLocaleUpperCase()}`;
+		return `#${[...rgbAsHex, alphaAsHex].join('').toLocaleUpperCase()}`;
 	};
 
 	public setRGB = ({ r, g, b, a }: RGBA) =>

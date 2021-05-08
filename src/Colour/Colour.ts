@@ -29,7 +29,7 @@ interface HSLA {
  * Colour class that allows itself to get and set HSL or RGB values and return
  * them as HSL/RGB or Hex
  */
-class Colour {
+export class Colour {
 	public r: number;
 	public g: number;
 	public b: number;
@@ -96,5 +96,3 @@ class Colour {
 			alpha: Number.isFinite(a) ? a : this.alpha,
 		});
 }
-
-export default Colour;

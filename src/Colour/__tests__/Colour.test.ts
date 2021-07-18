@@ -47,3 +47,12 @@ test('Real aqua colour accepts hsl override', () => {
 	expect(darkAqua.getRGBA()).toStrictEqual([215, 244, 237, 1]);
 	expect(darkAqua.getHexA()).toStrictEqual('#D7F4ED');
 });
+
+test('Initialising the same colour through rgb and hsl gets the same result', () => {
+	const rgb = [132, 220, 198] as [number, number, number];
+	const hsl = [165, 56, 69] as [number, number, number];
+	const aquaRGB = new Colour({ mode: ColourType.rgb, values: rgb });
+	const aquaHSL = new Colour({ mode: ColourType.hsl, values: hsl });
+
+	expect(JSON.stringify(aquaRGB)).toStrictEqual(JSON.stringify(aquaHSL));
+});

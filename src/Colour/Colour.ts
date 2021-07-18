@@ -3,13 +3,19 @@ import { hslToRgb, rgbToHsl, rgbValueToHex } from './convert';
 export enum ColourType {
 	'hsl' = 'hsl',
 	'rgb' = 'rgb',
+	'hex' = 'hex',
 }
 
-interface IColour {
-	mode: ColourType;
-	values: number[];
-	alpha?: number;
-}
+type IColour =
+	| {
+			mode: ColourType.rgb | ColourType.hsl;
+			values: number[];
+			alpha?: number;
+	  }
+	| {
+			mode: ColourType.hex;
+			values: string;
+	  };
 
 interface RGBA {
 	r?: number;
@@ -50,15 +56,27 @@ export class Colour {
 	 * @param param0
 	 */
 	private updateColourValues = ({ mode, values, alpha }: IColour) => {
-		const colourValues = values.slice(0, 3) as [number, number, number];
-		if (mode === ColourType.hsl) {
-			[this.r, this.g, this.b] = hslToRgb(...colourValues);
-			[this.h, this.s, this.l] = values;
-		} else if (mode === ColourType.rgb) {
-			[this.r, this.g, this.b] = values;
-			[this.h, this.s, this.l] = rgbToHsl(...colourValues);
+		if (values instanceof Array) {
+			const colourValues = values.slice(0, 3) as [number, number, number];
+			if (mode === ColourType.hsl) {
+				[this.r, this.g, this.b] = hslToRgb(...colourValues);
+				[this.h, this.s, this.l] = values;
+			} else if (mode === ColourType.rgb) {
+				[this.r, this.g, this.b] = values;
+				[this.h, this.s, this.l] = rgbToHsl(...colourValues);
+				this.alpha = (Number.isFinite(alpha) ? alpha : 1) as number;
+			}
+		} else if (mode === ColourType.hex) {
+			const hexString = values.replace('#', '');
+			if (hexString.length === 3) {
+			} else if (hexString.length === 6) {
+				
+			} else {
+				throw new Error(`${values} not a valid hex colour code`);
+			}
+		} else {
+			throw UnrecognisedColourType;
 		}
-		this.alpha = (Number.isFinite(alpha) ? alpha : 1) as number;
 	};
 
 	constructor(config: IColour) {

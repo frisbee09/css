@@ -123,3 +123,5 @@ export const rgbValueToHex = (v: number) => {
 	const hex = v.toString(16);
 	return `${hex.length === 1 ? '0' : ''}${hex}`;
 };
+
+export const hexToRGB = (hex: string) => parseInt(hex, 10);

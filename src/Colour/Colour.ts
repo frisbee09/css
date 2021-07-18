@@ -7,7 +7,7 @@ export enum ColourType {
 
 interface IColour {
 	mode: ColourType;
-	values: [number, number, number];
+	values: number[];
 	alpha?: number;
 }
 
@@ -44,12 +44,13 @@ export class Colour {
 	 * @param param0
 	 */
 	private updateColourValues = ({ mode, values, alpha }: IColour) => {
+		const colourValues = values.slice(0, 3) as [number, number, number];
 		if (mode === ColourType.hsl) {
-			[this.r, this.g, this.b] = hslToRgb(...values);
+			[this.r, this.g, this.b] = hslToRgb(...colourValues);
 			[this.h, this.s, this.l] = values;
 		} else if (mode === ColourType.rgb) {
 			[this.r, this.g, this.b] = values;
-			[this.h, this.s, this.l] = rgbToHsl(...values);
+			[this.h, this.s, this.l] = rgbToHsl(...colourValues);
 		}
 		this.alpha = (Number.isFinite(alpha) ? alpha : 1) as number;
 	};
@@ -70,14 +71,55 @@ export class Colour {
 	 * Gets the RGB values as an array
 	 * @returns
 	 */
-	public getRGBA = () => [this.r, this.g, this.b, this.alpha];
+	public getRGBA = (override?: RGBA): [number, number, number, number] => {
+		if (override) {
+			const { r, g, b, a } = override;
+			return [r ?? this.r, g ?? this.g, b ?? this.b, a ?? this.alpha];
+		} else {
+			return [this.r, this.g, this.b, this.alpha];
+		}
+	};
 
-	public getHSLA = () => [this.h, this.s, this.l, this.alpha];
+	public getHSLA = (override?: HSLA): [number, number, number, number] => {
+		if (override) {
+			const { h, s, l, a } = override;
+			return [h ?? this.h, s ?? this.s, l ?? this.l, a ?? this.alpha];
+		} else {
+			return [this.h, this.s, this.l, this.alpha];
+		}
+	};
+
+	/**
+	 * Creates a new colour from this one with the overrides applied. Useful for
+	 * partially overriding a colour definition in one syntax but exporting as
+	 * another
+	 * @param override
+	 */
+	public override = (override: HSLA | RGBA) => {
+		if ('h' in override || 's' in override || 'l' in override) {
+			const newBase = this.getHSLA(override);
+			return new Colour({
+				mode: ColourType.hsl,
+				values: newBase.slice(0, 3) as [number, number, number],
+				alpha: newBase.slice(-1)[0],
+			});
+		} else if ('r' in override || 'g' in override || 'b' in override) {
+			const newBase = this.getRGBA(override);
+			return new Colour({
+				mode: ColourType.rgb,
+				values: newBase.slice(0, 3) as [number, number, number],
+				alpha: newBase.slice(-1)[0],
+			});
+		}
+	};
 
 	public getHexA = () => {
 		const rgba = this.getRGBA();
-		const alphaAsHex = rgbValueToHex(rgba.slice(-1)[0] * 255);
-		const rgbAsHex = rgba.slice(0, -1).map(rgbValueToHex);
+		const alpha = rgba.slice(-1)[0];
+		const alphaAsHex = alpha ? rgbValueToHex(alpha * 255) : undefined;
+		const rgbAsHex = (rgba.slice(0, 3) as [number, number, number]).map(
+			rgbValueToHex
+		);
 
 		return `#${[...rgbAsHex, alphaAsHex === 'ff' ? '' : alphaAsHex]
 			.join('')

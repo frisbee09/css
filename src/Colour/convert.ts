@@ -37,13 +37,13 @@ export const rgbToHsl = (
 	b: number
 ): [number, number, number] => {
 	const normRGB = [r, g, b].map(num => num / 255) as [number, number, number];
-	const { delta } = getC(...normRGB);
+	const { max, min, delta } = getC(...normRGB);
 
 	const H = getH(...normRGB);
-	const L = delta / 2;
+	const L = (max + min) / 2;
 	const S = delta === 0 ? 0 : delta / (1 - Math.abs(2 * L - 1));
 
-	return [H, S, L];
+	return [Math.round(H), Math.round(S * 100), Math.round(L * 100)];
 };
 
 /**

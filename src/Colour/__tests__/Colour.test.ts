@@ -8,6 +8,23 @@ test('colour inits to black', () => {
 	expect(black.getHSLA()).toStrictEqual([0, 0, 0, 1]);
 });
 
+test('colour inits to black and overrides to red in line', () => {
+	const black = new Colour({ mode: ColourType.rgb, values: [0, 0, 0] });
+
+	expect(black.getHexA()).toStrictEqual('#000000');
+	expect(black.getRGBA({ r: 255 })).toStrictEqual([255, 0, 0, 1]);
+	expect(black.getHSLA({ s: 100, l: 50 })).toStrictEqual([0, 100, 50, 1]);
+});
+
+test('colour inits to black but overrides to create a red instance', () => {
+	const black = new Colour({ mode: ColourType.rgb, values: [0, 0, 0] });
+
+	expect(black.getHexA()).toStrictEqual('#000000');
+	const red = black.override({ r: 255 });
+	expect(red.getRGBA()).toStrictEqual([255, 0, 0, 1]);
+	expect(red.getHSLA()).toStrictEqual([0, 100, 50, 1]);
+});
+
 test('Real aqua colour converts correctly', () => {
 	const rgb = [132, 220, 198] as [number, number, number];
 	const aqua = new Colour({ mode: ColourType.rgb, values: rgb });
@@ -16,4 +33,5 @@ test('Real aqua colour converts correctly', () => {
 	expect(aqua.g).toBe(220);
 	expect(aqua.b).toBe(198);
 	expect(aqua.getHexA()).toStrictEqual('#84DCC6');
+	expect(aqua.getHSLA()).toStrictEqual([165, 56, 69, 1]);
 });

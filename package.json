@@ -1,37 +1,36 @@
 {
-  "name": "@cj09/css",
-  "version": "1.0.7",
-  "author": "CJ",
-  "keywords": [
-    "CSS",
-    "Helpers"
-  ],
-  "dependencies": {},
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "devDependencies": {
-    "typescript": "^4.2.4",
-    "@babel/core": "^7.14.0",
-    "@babel/preset-env": "^7.14.1",
-    "@babel/preset-typescript": "^7.13.0",
-    "@types/jest": "^26.0.23",
-    "babel-jest": "^26.6.3",
-    "concurrently": "^6.1.0",
-    "jest": "^26.6.3",
-    "ts-node": "^9.1.1"
-  },
-  "scripts": {
-    "test": "jest",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "build": "tsc --build --clean && tsc",
-    "checkTypes": "tsc --noEmit",
-    "prepare": "yarn format && yarn build",
-    "preversion": "yarn concurrently \"yarn checkTypes\" \"yarn test\"",
-    "version": "yarn format && git add -A src",
-    "postversion": "git push && git push --tags",
-    "publish": "yarn prepare && yarn npm publish --access public"
-  },
-  "files": [
-    "lib/**/*"
-  ]
+	"name": "@cj09/css",
+	"version": "1.0.7",
+	"author": "CJ",
+	"keywords": [
+		"CSS",
+		"Helpers"
+	],
+	"dependencies": {},
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
+	"devDependencies": {
+		"typescript": "^4.2.4",
+		"@babel/core": "^7.14.0",
+		"@babel/preset-env": "^7.14.1",
+		"@babel/preset-typescript": "^7.13.0",
+		"@types/jest": "^26.0.23",
+		"babel-jest": "^26.6.3",
+		"concurrently": "^6.1.0",
+		"jest": "^26.6.3",
+		"ts-node": "^9.1.1"
+	},
+	"scripts": {
+		"test": "jest",
+		"format": "prettier --write \"src/**/*.ts\"",
+		"build": "tsc --build --clean && tsc",
+		"checkTypes": "tsc --noEmit",
+		"prepare": "yarn format && yarn build && git add -A src",
+		"preversion": "yarn concurrently \"yarn checkTypes\" \"yarn test\"",
+		"postversion": "git push && git push --tags",
+		"publish": "yarn prepare && yarn npm publish --access public"
+	},
+	"files": [
+		"lib/**/*"
+	]
 }

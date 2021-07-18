@@ -1,4 +1,5 @@
-import { hslToRgb, rgbToHsl, rgbValueToHex } from './convert';
+import { hexToRGB, hslToRgb, rgbToHsl, rgbValueToHex } from './convert';
+import { deconstructHexString } from './deconstructHexString';
 
 export enum ColourType {
 	'hsl' = 'hsl',
@@ -15,6 +16,7 @@ type IColour =
 	| {
 			mode: ColourType.hex;
 			values: string;
+			alpha?: number;
 	  };
 
 interface RGBA {
@@ -57,6 +59,7 @@ export class Colour {
 	 */
 	private updateColourValues = ({ mode, values, alpha }: IColour) => {
 		if (values instanceof Array) {
+			// Array values support hsla and rgba instances
 			const colourValues = values.slice(0, 3) as [number, number, number];
 			if (mode === ColourType.hsl) {
 				[this.r, this.g, this.b] = hslToRgb(...colourValues);
@@ -64,16 +67,19 @@ export class Colour {
 			} else if (mode === ColourType.rgb) {
 				[this.r, this.g, this.b] = values;
 				[this.h, this.s, this.l] = rgbToHsl(...colourValues);
-				this.alpha = (Number.isFinite(alpha) ? alpha : 1) as number;
 			}
+			this.alpha = (Number.isFinite(alpha) ? alpha : 1) as number;
 		} else if (mode === ColourType.hex) {
-			const hexString = values.replace('#', '');
-			if (hexString.length === 3) {
-			} else if (hexString.length === 6) {
-				
-			} else {
-				throw new Error(`${values} not a valid hex colour code`);
-			}
+			// Here we deconstruct the hex string and construct like an rgba
+			// instance
+			const rgba = deconstructHexString(values).map(hexToRGB);
+			[this.r, this.g, this.b] = rgba;
+			[this.h, this.s, this.l] = rgbToHsl(
+				...(rgba.slice(0, 3) as [number, number, number])
+			);
+			this.alpha =
+				Math.round(rgba[3] / 255) ||
+				((Number.isFinite(alpha) ? alpha : 1) as number);
 		} else {
 			throw UnrecognisedColourType;
 		}

@@ -25,6 +25,12 @@ interface HSLA {
 	a?: number;
 }
 
+const UnrecognisedColourType = new Error(
+	`Unrecognised colour type. Choose from ${Object.values(ColourType).join(
+		', '
+	)}.`
+);
+
 /**
  * Colour class that allows itself to get and set HSL or RGB values and return
  * them as HSL/RGB or Hex
@@ -59,11 +65,7 @@ export class Colour {
 		if (config.mode in ColourType) {
 			this.updateColourValues(config);
 		} else {
-			throw new Error(
-				`Unrecognised colour type. Choose from ${Object.values(ColourType).join(
-					', '
-				)}.`
-			);
+			throw UnrecognisedColourType;
 		}
 	}
 
@@ -95,7 +97,7 @@ export class Colour {
 	 * another
 	 * @param override
 	 */
-	public override = (override: HSLA | RGBA) => {
+	public override = (override: HSLA | RGBA): Colour => {
 		if ('h' in override || 's' in override || 'l' in override) {
 			const newBase = this.getHSLA(override);
 			return new Colour({
@@ -110,6 +112,8 @@ export class Colour {
 				values: newBase.slice(0, 3) as [number, number, number],
 				alpha: newBase.slice(-1)[0],
 			});
+		} else {
+			throw UnrecognisedColourType;
 		}
 	};
 

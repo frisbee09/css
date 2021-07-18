@@ -35,3 +35,15 @@ test('Real aqua colour converts correctly', () => {
 	expect(aqua.getHexA()).toStrictEqual('#84DCC6');
 	expect(aqua.getHSLA()).toStrictEqual([165, 56, 69, 1]);
 });
+
+test('Real aqua colour accepts hsl override', () => {
+	const rgb = [132, 220, 198] as [number, number, number];
+	const aqua = new Colour({ mode: ColourType.rgb, values: rgb });
+
+	expect(aqua.getHSLA()).toStrictEqual([165, 56, 69, 1]);
+
+	const darkAqua = aqua.override({ l: 90 });
+	expect(darkAqua.getHSLA()).toStrictEqual([165, 56, 90, 1]);
+	expect(darkAqua.getRGBA()).toStrictEqual([215, 244, 237, 1]);
+	expect(darkAqua.getHexA()).toStrictEqual('#D7F4ED');
+});

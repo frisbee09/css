@@ -92,9 +92,11 @@ export const hslToRgb = (
 	s: number,
 	l: number
 ): [number, number, number] => {
-	const C = (1 - Math.abs(2 * l - 1)) * s;
+	const normS = s / 100;
+	const normL = l / 100;
+	const C = (1 - Math.abs(2 * normL - 1)) * normS;
 	const X = C * (1 - Math.abs(((h / 60) % 2) - 1));
-	const m = l - C / 2;
+	const m = normL - C / 2;
 
 	const rgbAssigningObject = {
 		C: C,
@@ -109,7 +111,11 @@ export const hslToRgb = (
 		throw 'H is not in range 0 - 360';
 	} else {
 		const normRGB = breakToUse.order.map(key => rgbAssigningObject[key]);
-		return normRGB.map(num => (num + m) * 255) as [number, number, number];
+		return normRGB.map(num => Math.round((num + m) * 255)) as [
+			number,
+			number,
+			number
+		];
 	}
 };
 

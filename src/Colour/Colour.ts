@@ -129,7 +129,12 @@ export class Colour {
 				values: newBase.slice(0, 3) as [number, number, number],
 				alpha: newBase.slice(-1)[0],
 			});
-		} else if ('r' in override || 'g' in override || 'b' in override) {
+		} else if (
+			'r' in override ||
+			'g' in override ||
+			'b' in override ||
+			'a' in override
+		) {
 			const newBase = this.getRGBA(override);
 			return new Colour({
 				mode: ColourType.rgb,
@@ -144,7 +149,9 @@ export class Colour {
 	public getHexA = () => {
 		const rgba = this.getRGBA();
 		const alpha = rgba.slice(-1)[0];
-		const alphaAsHex = alpha ? rgbValueToHex(alpha * 255) : undefined;
+		const alphaAsHex = alpha
+			? rgbValueToHex(Math.round(alpha * 255))
+			: undefined;
 		const rgbAsHex = (rgba.slice(0, 3) as [number, number, number]).map(
 			rgbValueToHex
 		);
